@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="payment"
+            type="com.mollie.checkout.data.model.Payment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="?attr/appBackgroundColorLevel2"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/space_16"
+        android:paddingTop="@dimen/space_10"
+        android:paddingEnd="@dimen/space_16"
+        android:paddingBottom="@dimen/space_10"
+        tools:ignore="UnusedAttribute">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/shape_corner_8"
+            android:backgroundTint="?attr/appBackgroundColorLevel3"
+            android:padding="@dimen/space_8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_payment" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/AppTheme.TextView.Default"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_16"
+            android:text="@{payment.description}"
+            app:layout_constraintEnd_toStartOf="@id/price"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Description of the payment" />
+
+        <TextView
+            style="@style/AppTheme.TextView.Sub"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/space_4"
+            android:text="@{payment.formattedCreated}"
+            app:layout_constraintStart_toStartOf="@id/description"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            tools:text="16/07/2021 09:00" />
+
+        <TextView
+            android:id="@+id/price"
+            style="@style/AppTheme.TextView.Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{payment.formattedPrice}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="€ 2.00" />
+
+        <TextView
+            android:id="@+id/status"
+            style="@style/AppTheme.TextView.Status"
+            backgroundTint="@{payment.status.color}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:background="@drawable/shape_corner_3"
+            android:paddingStart="@dimen/space_4"
+            android:paddingTop="@dimen/space_2"
+            android:paddingEnd="@dimen/space_4"
+            android:paddingBottom="@dimen/space_2"
+            android:text="@{payment.status.label}"
+            app:layout_constraintEnd_toEndOf="@id/price"
+            app:layout_constraintTop_toBottomOf="@id/price"
+            tools:backgroundTint="@color/status_yellow"
+            tools:text="@string/status_open" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

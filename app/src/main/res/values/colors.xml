@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#000000</color>
+
+    <color name="colorPrimary">#0077FF</color>
+    <color name="colorPrimaryVariant">#0000FF</color>
+
+    <color name="white">#FFF</color>
+    <color name="white_alpha_50">#80FFFFFF</color>
+
+    <color name="black">#030303</color>
+    <color name="black_level_1">#121212</color>
+    <color name="black_level_2">#1C1B1D</color>
+    <color name="black_level_3">#2B2A2E</color>
+    <color name="black_level_4">#3D3C40</color>
+
+    <color name="status_yellow">#FFCD01</color>
+    <color name="status_orange">#FF7E00</color>
+    <color name="status_green">#3EDC00</color>
+    <color name="status_red">#EB0404</color>
+    <color name="status_grey">#ABABAB</color>
+
+</resources>

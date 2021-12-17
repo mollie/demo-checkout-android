@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppTheme.Base">
+
+        <attr name="appProgressTint" format="color" />
+
+        <attr name="appTextColorDefault" format="color" />
+        <attr name="appTextColorSub" format="color" />
+        <attr name="appTextColorStatus" format="color" />
+
+        <attr name="appBackgroundColorDefault" format="color" />
+        <attr name="appBackgroundColorLevel1" format="color" />
+        <attr name="appBackgroundColorLevel2" format="color" />
+        <attr name="appBackgroundColorLevel3" format="color" />
+        <attr name="appBackgroundColorLevel4" format="color" />
+
+    </declare-styleable>
+</resources>

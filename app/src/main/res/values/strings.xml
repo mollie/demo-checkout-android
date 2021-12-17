@@ -1,0 +1,48 @@
+<resources>
+    <string name="general_create">&#160;Create&#160;</string>
+    <string name="general_continue">Continue</string>
+    <string name="general_ok">OK</string>
+
+    <string name="deeplink_host">payments</string>
+    <string name="deeplink_scheme_app">mollie-checkout</string>
+    <string name="deeplink_scheme_https">https</string>
+
+    <string name="status_open">Open</string>
+    <string name="status_canceled">Canceled</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_expired">Expired</string>
+    <string name="status_failed">Failed</string>
+    <string name="status_paid">Paid</string>
+
+    <string name="payments_title">Payments</string>
+    <string name="payments_empty_title">Welcome to Mollie Checkout</string>
+    <string name="payments_empty_description">To get started, you can create a new payment. Success!</string>
+    <string name="payments_create_new">Create payment</string>
+    <string name="payment_status_title">Payment status</string>
+    <string name="payment_status_description">This payment has the status %s.</string>
+
+    <string name="payments_checkout_select_flow_title">Select flow</string>
+    <string name="payments_checkout_select_flow_description">Which browser flow would you like to use for checking out this payment?</string>
+    <string name="payments_checkout_select_flow_external_browser">External (recommended)</string>
+    <string name="payments_checkout_select_flow_in_app_browser">In-app browser</string>
+
+    <string name="create_payment_title">Add payment</string>
+    <string name="create_payment_description">Specify the payment amount and provide a description.</string>
+    <string name="create_payment_hint_amount">Amount</string>
+    <string name="create_payment_hint_description">Description</string>
+    <string name="create_payment_error_missing_amount">Please fill in an amount.</string>
+    <string name="create_payment_error_missing_description">Please fill in a description.</string>
+
+    <string name="select_method_empty_title">Missing payment methods</string>
+    <string name="select_method_empty_description">No payment methods were found. Please try again.</string>
+
+    <string name="select_method_title">Select payment method</string>
+    <string name="select_issuer_title">Select issuer</string>
+    <string name="select_checkout_method_missing">Select a payment method.</string>
+    <string name="select_checkout_issuer_missing">Select an issuer.</string>
+    <string name="select_checkout_payment_missing">Make sure to fill in the amount and description of the payment before creating a payment.</string>
+
+    <string name="in_app_browser_title">Checkout</string>
+    <string name="in_app_browser_host_mollie">mollie.com</string>
+    <string name="in_app_browser_failed_opening_link">There is no app installed to handle this link.</string>
+</resources>

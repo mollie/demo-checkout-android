@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/space_32">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_corner_10"
+            android:backgroundTint="?attr/appBackgroundColorLevel3"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/space_16"
+            android:paddingTop="@dimen/space_32"
+            android:paddingEnd="@dimen/space_16"
+            android:paddingBottom="@dimen/space_20">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/AppTheme.TextView.Header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/payments_checkout_select_flow_title" />
+
+            <TextView
+                android:id="@+id/description"
+                style="@style/AppTheme.TextView.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="@string/payments_checkout_select_flow_description" />
+
+            <Space
+                android:id="@+id/spacer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_10"
+                app:layout_constraintTop_toBottomOf="@id/description" />
+
+            <Button
+                android:id="@+id/primary_button"
+                style="@style/AppTheme.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_12"
+                android:textSize="@dimen/font_size_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spacer"
+                tools:text="@string/payments_checkout_select_flow_external_browser" />
+
+            <Button
+                android:id="@+id/secondary_button"
+                style="@style/AppTheme.Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:padding="@dimen/space_12"
+                android:textSize="@dimen/font_size_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/primary_button"
+                tools:text="@string/payments_checkout_select_flow_in_app_browser" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

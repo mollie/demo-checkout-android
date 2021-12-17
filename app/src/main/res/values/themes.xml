@@ -1,0 +1,117 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base theme -->
+    <style name="Theme.Base" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnSecondary">?attr/appTextColorDefault</item>
+
+        <item name="colorOnSurface">?attr/appTextColorSub</item>
+        <item name="colorSurface">?attr/appBackgroundColorLevel2</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/appBackgroundColorDefault</item>
+
+        <item name="toolbarStyle">@style/AppTheme.ToolBar</item>
+        <item name="android:actionMenuTextColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- Tool Bar (Dark) -->
+
+    <style name="AppTheme.ToolBar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/black_level_1</item>
+    </style>
+
+    <!-- App Theme (Dark) -->
+    <style name="AppTheme.Base" parent="Theme.Base">
+        <item name="android:windowBackground">?attr/appBackgroundColorDefault</item>
+
+        <item name="appTextColorDefault">@color/white</item>
+        <item name="appTextColorSub">@color/white_alpha_50</item>
+        <item name="appTextColorStatus">@color/black</item>
+
+        <item name="appBackgroundColorDefault">@color/black</item>
+        <item name="appBackgroundColorLevel1">@color/black_level_1</item>
+        <item name="appBackgroundColorLevel2">@color/black_level_2</item>
+        <item name="appBackgroundColorLevel3">@color/black_level_3</item>
+        <item name="appBackgroundColorLevel4">@color/black_level_4</item>
+    </style>
+
+    <style name="AppTheme.Splash" parent="AppTheme.Base">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Normal" parent="AppTheme.Base">
+
+    </style>
+
+    <!-- Text View -->
+
+    <style name="AppTheme.TextView" parent="AppTheme.Base">
+        <item name="android:textColor">?attr/appTextColorDefault</item>
+    </style>
+
+    <style name="AppTheme.TextView.Default" parent="AppTheme.TextView">
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
+    <style name="AppTheme.TextView.Header" parent="AppTheme.TextView">
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="AppTheme.TextView.Sub" parent="AppTheme.TextView">
+        <item name="android:textColor">?attr/appTextColorSub</item>
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
+    <style name="AppTheme.TextView.Section" parent="AppTheme.TextView">
+        <item name="android:textSize">@dimen/font_size_14</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="AppTheme.TextView.Status" parent="AppTheme.TextView">
+        <item name="android:textColor">?attr/appTextColorStatus</item>
+        <item name="android:textSize">@dimen/font_size_8</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Text View -->
+
+    <style name="AppTheme.TextInput.EditText" parent="AppTheme.Base">
+        <item name="android:textColor">?attr/appTextColorDefault</item>
+    </style>
+
+    <!-- Button -->
+
+    <style name="AppTheme.Button.FloatingActionButton" parent="AppTheme.Base">
+
+    </style>
+
+    <style name="AppTheme.Button" parent="AppTheme.Base">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:textColor">?attr/appTextColorDefault</item>
+        <item name="android:textSize">@dimen/font_size_20</item>
+        <item name="elevation">0dp</item>
+        <item name="android:padding">@dimen/space_16</item>
+    </style>
+
+    <style name="AppTheme.Button.Colored" parent="AppTheme.Button">
+
+    </style>
+
+    <style name="AppTheme.Button.Secondary" parent="AppTheme.Button">
+        <item name="backgroundTint">?attr/appBackgroundColorLevel4</item>
+    </style>
+
+    <!-- Tab Layout -->
+
+    <style name="AppTheme.TabLayout" parent="AppTheme.Base">
+        <item name="android:backgroundTint">?attr/appBackgroundColorLevel1</item>
+    </style>
+
+</resources>

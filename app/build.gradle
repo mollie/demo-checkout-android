@@ -1,0 +1,101 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    compileSdkVersion 31
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.mollie.checkout"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode System.getenv("VERSION_CODE") as Integer ?: 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    def keyProps = new Properties()
+    keyProps.load(rootProject.file("keystore.properties").newReader())
+    signingConfigs {
+        alpha {
+            storeFile file('alpha.jks')
+            storePassword System.getenv("KEYSTORE_ALPHA_PASSWORD") ?: keyProps['KEYSTORE_ALPHA_PASSWORD']
+            keyAlias System.getenv("KEYSTORE_ALPHA_KEY") ?: keyProps['KEYSTORE_ALPHA_KEY']
+            keyPassword System.getenv("KEYSTORE_ALPHA_KEY_PASSWORD") ?: keyProps['KEYSTORE_ALPHA_KEY_PASSWORD']
+        }
+
+        release {
+            storeFile file('release.jks')
+            storePassword System.getenv("KEYSTORE_RELEASE_PASSWORD") ?:  keyProps['KEYSTORE_RELEASE_PASSWORD']
+            keyAlias System.getenv("KEYSTORE_RELEASE_KEY") ?:  keyProps['KEYSTORE_RELEASE_KEY']
+            keyPassword System.getenv("KEYSTORE_RELEASE_KEY_PASSWORD") ?:  keyProps['KEYSTORE_RELEASE_KEY_PASSWORD']
+        }
+    }
+
+    buildTypes {
+        debug {
+            resValue "string", "app_name", "MOL Debug"
+            applicationIdSuffix ".debug"
+        }
+
+        alpha {
+            resValue "string", "app_name", "MOL Alpha"
+            applicationIdSuffix ".alpha"
+            signingConfig signingConfigs.alpha
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            resValue "string", "app_name", "Checkout"
+            signingConfig signingConfigs.release
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // AndroidX
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.browser:browser:1.4.0"
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+}
