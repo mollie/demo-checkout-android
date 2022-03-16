@@ -46,7 +46,7 @@ class InAppBrowserActivity : BaseActivity<ActivityInAppBrowserBinding>() {
 
         // Check if payment status changed and handle accordingly.
         // When the browser opened an external app, the external app will call our deeplink to open the app again. However there are some caveats:
-        // 1. This screen remains in the stack if opening the deeplink did not close this activity (this could be resolved by using the CLEAR_TASK flag).
+        // 1. This screen remains in the stack if opening the deeplink did not close this activity.
         // 2. The payment may be done asynchronously and the user may manually return to the app. In this case the last screen (which is this activity) is opened while the payment might have already been finished.
         // In conclusion it is a best practice to check the status of the payment when the user returns back to the app to make sure that this payment is not completed already.
         getPayment()?.id?.let { paymentId ->

@@ -1,27 +1,45 @@
+# Implementing the advanced flow
+
 <img align="right" src="images/FlowAdvanced.gif" alt="Advanced flow" width="24%" />
 
-# Flow 2: Advanced implementation
+Instead of using an external browser, the advanced implementation executes the payment in an in-app browser. This enables you to style the payment flow so that it matches your app’s theme.
 
-The advanced implementation makes use of a WebView to handle the payments in-app.
+## Behaviour
 
-> **Note:** Make sure to first implement the basic flow ([Flow 1: Basic implementation (recommended)](FLOW_BASIC.md)) before implementing this advanced flow.
+When customers create a payment, the payment link opens in a WebView to execute the payment. If necessary, the WebView launches other native apps to complete the payment.
 
-## Step 1: Creating the in-app browser Activity
+The payment result returns through a deep link or a callback in the WebView. The app refreshes the payment statuses when it’s opened, to ensure the latest statuses are shown in case the payment result doesn’t return.
 
-Instead of launching the payment url in the basic flow, create an Activity that contains a WebView to load the url in.
+## Implementation
 
-## Step 2: Set WebView settings
+>:warning: **Note**: Before implementing the advanced flow, implement the basic flow and change `Settings.Navigation.PAYMENT_FLOW` to `IN_APP_BROWSER` in [Settings.kt](app/src/main/java/com/mollie/checkout/Settings.kt).
 
-Configure the settings on the WebView:
+The advanced flow consists of the following steps:
+
+1.  [Create an in-app browser Activity](#create-an-in-app-browser-activity)
+2.  [Configure the WebView settings](#configure-the-webview-settings)
+3.  [Configure the WebViewClient](#configure-the-webviewclient)
+4.  [Reload the payment status in the in-app browser Activity](#reload-the-payment-status-in-the-in-app-browser-activity)
+5.  [Reload the payment status in the result Activity](#reload-the-payment-status-in-the-result-activity)
+
+> ❗**Warning**: Incorrect implementation of the advanced flow can lead to payments not starting or incomplete payments due to universal linking issues.
+
+### Step 1: Create an in-app browser Activity
+
+To replace launching the payment link in the basic implementation, create an Activity that contains a WebView to load the payment, such as [InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt).
+
+### Step 2: Configure the WebView settings
+
+Your app should be able to load issuer and Mollie sites to include all payment flows. To do this, configure the WebView settings.
 
 ```kotlin
-binding.webView.settings.javaScriptEnabled = true // Needed for the Mollie and issuer sites to load
-binding.webView.settings.domStorageEnabled = true // Needed for some issuers to load that makes use HTML 5 specifications, such as Rabobank when generating QR codes
+binding.webView.settings.javaScriptEnabled = true // Required to load Mollie and issuer sites.
+binding.webView.settings.domStorageEnabled = true // Required to load some issuers that use HTML5 specifications to generate QR codes, such as Rabobank.
 ```
 
-## Step 3: Configure WebViewClient
+### Step 3: Configure the WebViewClient
 
-Configure the WebViewClient on the WebView to handle callbacks and urls:
+In the in-app Activity, configure the WebViewClient on the WebView to handle callbacks and URLs.
 
 ```kotlin
 binding.webView.webViewClient = object : WebViewClient() {
@@ -95,21 +113,21 @@ binding.webView.webViewClient = object : WebViewClient() {
 }
 ```
 
-> Note: There are various situations in the in-app browser flow where the user did not return to the app via the deeplink or callbacks.
+### Step 4: Reload the payment status in the in-app browser Activity
 
-## Step 4: Reload status in in-app browser Activity
+There are a number of situations where the customer doesn’t return to the app through a deep link or a callback. For example, when an external app is required to complete the payment, the external app calls the deep link to relaunch your app. In some cases, this is unsuccessful:
 
-Make sure to reload the payment status when opening the activity to detect whether the payment has been completed:
+-   The current in-app Activity must close when the deep link is opened, otherwise the screen remains in the stack.
+-   If a payment takes place asynchronously, the customer must return to the app manually. The app opens the last screen, which is the in-app Activity, even if the payment is already complete.
+
+Therefore, it’s best practice to check whether the payment is complete when the customer returns to the app.
+
+To check whether the payment is complete, reload the payment status when the Activity opens.
 
 ```kotlin
 override fun onResume() {
     super.onResume()
 
-    // Check if payment status changed and handle accordingly.
-    // When the browser opened an external app, the external app will call our deeplink to open the app again. However there are some caveats:
-    // 1. This screen remains in the stack if opening the deeplink did not close this activity (this could be resolved by using the CLEAR_TASK flag).
-    // 2. The payment may be done asynchronously and the user may manually return to the app. In this case the last screen (which is this activity) is opened while the payment might have already been finished.
-    // In conclusion it is a best practice to check the status of the payment when the user returns back to the app to make sure that this payment is not completed already.
     getPayment()?.id?.let { paymentId ->
         lifecycleScope.launch {
             val latestPayment = vm.getLatestPayment(paymentId)
@@ -123,9 +141,11 @@ override fun onResume() {
 }
 ```
 
-## Step 5: Reload status in result Activity
+### Step 5: Reload the payment status in the result Activity
 
-Make sure to check for the payment status in the other screens as well. In the demo app the in-app browser Activity launches the payments list so that we can handle it as if it came from the deeplink with updating our `checkCompletedPayment()` method:
+Reload the payment status on all relevant screens to show the latest payment status across your app.
+
+In the demo app, the `checkCompletedPayment()` method in the in-app browser Activity launches the payments list so that it is handles it the same way as a deep link.
 
 ```kotlin
 private fun checkCompletedPayment(intent: Intent?) {
@@ -154,15 +174,13 @@ private fun checkCompletedPayment(intent: Intent?) {
 }
 ```
 
-# Additions
+## Next steps
 
-After implementing the advanced flow, the following additions are available:
+After implementing the advanced flow, your app handles Mollie payments natively. You can extend this flow by [including payment method selection in your app](IMPLEMENT_PAYMENT_METHODS.md).
 
-- [Optional: Implement payment methods](IMPLEMENT_PAYMENT_METHODS.md)
+## Resources
 
-# Resources
+Refer to the following source files for relevant samples:
 
-Related samples in Mollie Checkout:
-
-- [InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt): example activity with the WebView.
-- [PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt): additional handling for a completed payment in this flow.
+- [InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt): example Activity containing the WebView.
+- [PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt): contains additional handling of completed payments using the advanced flow.
