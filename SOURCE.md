@@ -1,96 +1,96 @@
-# Source explained
+# About the source
 
-## Settings
+This page takes you through some of the source files you need to execute payments in your app.
 
-The demo app comes with a few configured settings in [Settings.kt](app/src/main/java/com/mollie/checkout/Settings.kt). These settings can be modified to check out the flow when running the demo app.
+## Configuration
 
-We recommend trying out the different options of the available settings when running the app to get a feeling about which flow is preferred in your case.
+### Basic settings
 
-| Setting | Description |
-| ------- | ----------- |
-| `Settings.Network.BASE_URL` | The base url of the backend in use. |
-| `Settings.Navigation.SELECT_PAYMENT_METHOD` | Indicates whether to select the payment method directly when creating a payment. <br> This value defines how **creating** and **executing** the payment works in the demo app. |
-| `Settings.Navigation.PAYMENT_FLOW` | Defines the flow that is used when executing a payment. |
+You can modify the app’s basic settings in [Settings.kt](app/src/main/java/com/mollie/checkout/Settings.kt).
 
-## Networking
+-   `Settings.Network.BASE_URL` specifies the link used to communicate with your backend. This is needed to securely handle the API calls when executing the payment flow.
+-   `Settings.Navigation.SELECT_PAYMENT_METHOD` indicates whether to use a custom payment method selection step.
+    -   `false` is the default setting. Customers select the payment method in the web when they execute the payment. 
+    -   `true` enables you to customise the payment method selection. Customers select the payment method in your app before executing the payment in the web.
+-   `Settings.Navigation.PAYMENT_FLOW` defines how to execute the payment.
+    -   `PaymentFlow.CHOOSE` displays an alert for the customer to choose their preferred flow.
+    -   `PaymentFlow.EXTERNAL_BROWSER` uses the [basic implementation flow](FLOW_BASIC.md).
+    -   `PaymentFlow.IN_APP_BROWSER` uses the [advanced implementation flow](FLOW_ADVANCED.md).
 
-In this demo app we use Retrofit to communicate to the backend:
+> :white_check_mark: **Tip**: Run the app using different settings to discover your preferred implementation.
 
-- [Connectivity.kt](app/src/main/java/com/mollie/checkout/data/net/Connectivity.kt): Retrofit configuration
-- [ApiService.kt](app/src/main/java/com/mollie/checkout/data/net/ApiService.kt): Definition of backend calls
+### Network and backend calls
 
-Within the ApiService there are 4 calls:
+The demo app uses Retrofit to communicate with the backend and execute the API calls needed for the payment flows.
 
-- `createPayment(payment: Payment)`: Used to create a new payment.
-- `getPayments()`: Used to retrieve the list of payments.
-- `getPayment(id: Int)`: Only used to retrieve a single payment.
-- `getMethods()`: Only needed when `Settings.Navigation.SELECT_PAYMENT_METHOD` is `true`.
+-   [Connectivity.kt](app/src/main/java/com/mollie/checkout/data/net/Connectivity.kt) contains the Retrofit configuration.  
+-   [ApiService.kt](app/src/main/java/com/mollie/checkout/data/net/ApiService.kt) contains the backend calls:
+    -   `createPayment(payment: Payment)` creates a payment.
+    -   `getPayments()` retrieves a list of payments.
+    -   `getPayment(id: Int)` retrieves the specified payment.
+    -   `getMethods()` retrieves the payment methods. Only applies when `Settings.Navigation.SELECT_PAYMENT_METHOD` is `true`.
 
-# User flow
+## App functionalities
 
-## 1: Splash
+The demo app uses various source files to handle its functionalities.
 
-The [SplashActivity.kt](app/src/main/java/com/mollie/checkout/feature/splash/SplashActivity.kt) retrieves the payments list and proceeds when these are loaded.
+### Retrieve payments
 
-## 2: List payments
+There are two files that the app uses to retrieve payments.
 
-In [PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt) the payments are retrieved and shown.
+[SplashActivity.kt](app/src/main/java/com/mollie/checkout/feature/splash/SplashActivity.kt) displays a loading screen while it retrieves the payments list. When it’s finished loading, it displays the payments list.
+    
+[PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt) retrieves and displays the payments list.
 
-> **Note:** Refreshing the payments list in the `onResume()` method is recommended to make sure the user always sees the latest state of their payments.
+> :warning: **Note**: To ensure the latest payment statuses are shown, refresh the payments list using the `onResume()` method in [PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt). This way, customers can see whether their payments were successful.
 
-## 3: Create payment
+### Create payment
 
-The bare minimum needed to create a payment is a `description` and the `amount`. Usually these values are determined based on what is being bought. For demonstration purposes, in [CreatePaymentActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/create/CreatePaymentActivity.kt) the user provides these values.
+The API call to create a payment requires a `description` and an `amount`. In general, these values are determined by the ordered item. For demonstration purposes, the customer provides these values in [CreatePaymentActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/create/CreatePaymentActivity.kt).
 
-Next when clicking **Create** button, the app continues depending on `Settings.Navigation.SELECT_PAYMENT_METHOD`:
+When the customer taps **Create**, the app continues to the select payment method step if `Settings.Navigation.SELECT_PAYMENT_METHOD` in [Settings.kt](app/src/main/java/com/mollie/checkout/Settings.kt) is `true`. Otherwise, it saves the payment and proceeds to [the execution step](#execute-payment).
 
-- When `true`, see [3A](#3a-optional-selecting-the-payment-method)
-- When `false`, see [3B](#3b-payment-saved)
+### Select payment method (optional)
 
-> **Note:** Selecting the payment method when creating the payment is completely optional. Creating a payment only with the `description` and `amount` will allow the user to select the payment method later when executing the payment.
+If you customise the payment selection step, the app continues to the payment method on **Create**.
 
-### 3A Optional: Selecting the payment method
+You can choose whether to display the payment methods and issuers in a list or a grid layout.
 
-In [SelectCheckoutActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/selectcheckout/SelectCheckoutActivity.kt) the payment method selection is implemented natively. In case the payment method has issuers, selecting the issuer is also required. When selecting **Continue**, the app proceeds to **3B**.
+-   [SelectCheckoutActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/selectcheckout/SelectCheckoutActivity.kt) implements the payment method selection natively.
+-   [SelectIssuerFragment](app/src/main/java/com/mollie/checkout/feature/payments/selectcheckout/SelectIssuerFragment.kt) only applies when the customer selects a payment method through the grid layout.
 
-The demo app provides a tab selection on top to switch between the list and grid layout for selecting the method and issuer. You can choose which layout is preferred in your app.
+### Execute payment
 
-> **Note:** [SelectIssuerFragment](app/src/main/java/com/mollie/checkout/feature/payments/selectcheckout/SelectIssuerFragment.kt) is only used when using the grid layout. 
+The app executes the payment according to the `Settings.Navigation.PAYMENT_FLOW` in [Settings.kt](app/src/main/java/com/mollie/checkout/Settings.kt).
 
-### 3B: Payment saved
+> :white_check_mark: **Tip**: You can implement both flows and set `Settings.Navigation.PAYMENT_FLOW` to `PaymentFlow.CHOOSE`. In this case, the app displays an alert that enables customers to choose whether to continue in the app or in their browser.
 
-The payment is saved with the values, proceeding to the next step: executing the payment.
+#### Basic implementation
 
-## 4: Executing the payment
+In the basic implementation, the payment link opens in an external browser on the customer’s device.
 
-The demo app determines the payment flow based on `Settings.Navigation.PAYMENT_FLOW`:
+To implement this flow, set `Settings.Navigation.PAYMENT_FLOW` to `PaymentFlow.EXTERNAL_BROWSER`.
 
-- When `PaymentFlow.EXTERNAL_BROWSER`, see [4A](#4a-external-browser-flow)
-- When `PaymentFlow.IN_APP_BROWSER`, see [4B](#4b-in-app-browser-flow)
-- When `PaymentFlow.CHOOSE`, see [4C](#4c-choose-flow)
+[Navigation.kt](app/src/main/java/com/mollie/checkout/feature/Navigation.kt) contains the `openUrl()` method. You can customise some elements for Chrome Custom Tabs in this method.
 
-### 4A: External browser flow
+> :warning: **Note**: Other browsers might ignore custom values.
 
-The url is opened via Chrome Custom Tabs to allow a bit of customization when opening the url. Checkout the method `openUrl()` in [Navigation.kt](app/src/main/java/com/mollie/checkout/feature/Navigation.kt).
+#### Advanced implementation
 
-> **Note:** Although Chrome Custom Tabs allow for some customization, the device might still launch a different browser based on the user's device preferences. This means that then the customized values can be ignored depending on the browser that is being launched.
+In the advanced implementation, the payment link opens in a WebView inside the app.
 
-### 4B: In-app browser flow
+To implement this flow, set `Settings.Navigation.PAYMENT_FLOW` to `PaymentFlow.IN_APP_BROWSER`.
 
-The url is opened within a WebView inside [InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt). The WebView settings are set to successfully load the payment pages. 
+To access the WebView sample files, open **app** → **src** → **main** → **java** → **com** → **mollie** → **checkout** → **feature** → **inappbrowser**.
 
-The WebViewClient is used to handle the callbacks from the WebView. Overriding `shouldOverrideUrlLoading()` is **required** to handle called deeplinks from the WebView as well as universal links that should be opened in the native apps. 
+[InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt) enables you to configure the settings needed to successfully load payment pages. The WebViewClient is used to handle callbacks from the WebView.
 
-### 4C: Choose flow
+> :warning: **Note**: You must override `shouldOverrideUrlLoading()`. This is required to handle deep links called from the WebView and universal links that launch native apps.
 
-With this setting the app will show an alert, giving the user the choice to use the **5A: External browser flow** or the **5B: In-app browser flow**.
+### Handle payment result
 
-## 5: Payment result
+[PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt) contains two methods that handle a processed payment:
+-   `onResume()` refreshes the payments list to show the latest status.
+-   `checkCompletedPayment()` retrieves the payment ID from the deep link after a payment is complete, regardless of its status.
 
-The [PaymentsActivity.kt](app/src/main/java/com/mollie/checkout/feature/payments/PaymentsActivity.kt) reloads the payment in `onResume()` to ensure that the latest state of the payments are shown.
-
-Additionally, this activity is configured to handle the result of the deeplinks. In the `checkCompletedPayment()` method the payment id is retrieved from the deeplink when a payment completed, regardless of the payment status.
-
-### 5A: In-app browser flow
-
-When using the in-app browser flow, the [InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt) also refreshes the state of the payment in `onResume()`. This is because with the in-app browser flow, there are various cases where the payment is completed but did not return to that activity or to the app.
+In the advanced implementation, there are various cases in which a customer completes their payment but isn’t returned to the Activity or the app. [InAppBrowserActivity.kt](app/src/main/java/com/mollie/checkout/feature/inappbrowser/InAppBrowserActivity.kt) therefore also contains the `onResume()` method to refresh the payments.
