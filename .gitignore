@@ -232,11 +232,10 @@ fabric.properties
 # Internal
 
 .gitlab-ci.yml
-fastlane/
-app/alpha.jks
-app/release.jks
+fastlane
+alpha.jks
+release.jks
 Gemfile
 Gemfile.lock
 app/google-services.json
-RELEASE_NOTES.md
-
+.idea

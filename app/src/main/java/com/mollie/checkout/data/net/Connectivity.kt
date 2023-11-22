@@ -2,11 +2,9 @@ package com.mollie.checkout.data.net
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mollie.checkout.BuildConfig
 import com.mollie.checkout.Settings
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,6 +18,7 @@ object Connectivity {
         this.deviceUUID = uuid
     }
 
+    @Suppress("SpellCheckingInspection")
     private fun getGson(): Gson {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -36,16 +35,11 @@ object Connectivity {
 
     private fun getOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            val logger = HttpLoggingInterceptor()
-            logger.setLevel(HttpLoggingInterceptor.Level.BODY)
-            builder.addInterceptor(logger)
-        }
         builder.addInterceptor { chain ->
             val original = chain.request()
 
             val requestBuilder = original.newBuilder()
-                .method(original.method, original.body)
+                .method(original.method(), original.body())
 
             deviceUUID?.let {
                 requestBuilder.addHeader(HEADER_DEVICE_UUID, it)

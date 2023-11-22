@@ -14,7 +14,7 @@
         <item name="colorOnSurface">?attr/appTextColorSub</item>
         <item name="colorSurface">?attr/appBackgroundColorLevel2</item>
 
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/appBackgroundColorDefault</item>
+        <item name="android:statusBarColor">?attr/appBackgroundColorDefault</item>
 
         <item name="toolbarStyle">@style/AppTheme.ToolBar</item>
         <item name="android:actionMenuTextColor">@color/colorPrimary</item>
@@ -39,6 +39,15 @@
         <item name="appBackgroundColorLevel2">@color/black_level_2</item>
         <item name="appBackgroundColorLevel3">@color/black_level_3</item>
         <item name="appBackgroundColorLevel4">@color/black_level_4</item>
+    </style>
+
+    <!-- Splash -->
+    <style name="AppTheme.Launcher" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/img_logo_splash</item>
+        <item name="windowSplashScreenAnimationDuration">0</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.Splash</item>
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme.Base">

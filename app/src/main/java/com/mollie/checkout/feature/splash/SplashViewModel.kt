@@ -15,7 +15,9 @@ import java.util.*
 class SplashViewModel : BaseViewModel() {
 
     companion object {
-        private const val SPLASH_DELAY = 750L
+        const val AnimationFadeDuration = 250L
+        private const val AnimationLogoDuration = 500L
+        const val MinimumSplashDuration = AnimationFadeDuration + AnimationLogoDuration
     }
 
     private val state = MutableLiveData<SplashState>()
@@ -29,7 +31,7 @@ class SplashViewModel : BaseViewModel() {
     private fun loadPayments() {
         viewModelScope.launch {
             PaymentsRepository.reloadPayments()
-            delay(SPLASH_DELAY)
+            delay(MinimumSplashDuration)
             state.value = SplashState.PAYMENTS
         }
     }
