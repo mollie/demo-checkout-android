@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import com.google.gson.annotations.SerializedName
 import com.mollie.checkout.R
 
+@Suppress("unused")
 enum class PaymentStatus(
     @StringRes val label: Int,
     @ColorRes val color: Int,

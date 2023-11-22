@@ -2,6 +2,7 @@ package com.mollie.checkout.feature.base
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -18,6 +19,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
 
     abstract fun getViewModel(): BaseViewModel
 
+    @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,7 +46,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

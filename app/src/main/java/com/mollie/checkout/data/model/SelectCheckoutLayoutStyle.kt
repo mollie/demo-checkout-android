@@ -8,7 +8,7 @@ enum class SelectCheckoutLayoutStyle(
 
     companion object {
         fun from(index: Int?): SelectCheckoutLayoutStyle? {
-            return values().firstOrNull { it.index == index }
+            return entries.firstOrNull { it.index == index }
         }
     }
 }

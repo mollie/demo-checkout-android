@@ -20,9 +20,9 @@ Mollie Checkout for Android focuses on the core functionalities needed to handle
 
 This demo app also enables you to configure settings for two different implementation flows, depending on your preference.
 
-| Retrieve payments | Create payment | Select method and issuer |
-| --------------- | ---------------- | ---------------------- |
-|  ![Payments list](images/Payments.jpg "Payments list")  |  ![Create payment](images/CreatePayment.jpg "Create payment")  |  ![Select method/issuer](images/SelectMethodListIssuer.jpg "Select method/issuer")  |
+| Retrieve payments                                     | Create payment                                               | Select method and issuer                                                          |
+|-------------------------------------------------------|--------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| ![Payments list](images/Payments.jpg "Payments list") | ![Create payment](images/CreatePayment.jpg "Create payment") | ![Select method/issuer](images/SelectMethodListIssuer.jpg "Select method/issuer") |
 
 ## Flows
 
@@ -36,8 +36,8 @@ In the basic implementation flow, payment links open in an external browser on t
 
 > ✅  **Tip**: We recommend this flow if you want to add Mollie payments to your app with minimum effort, because it’s easy to implement.
 
-| Pros | Cons |
-| --- | --- |
+| Pros                                                                                                                                                                                                                                                                                        | Cons                                                                                                                                                                                                        |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <ul><li>The experience is similar to executing a Mollie payment on the web.</li><li>The payment flow is reliable, because it's handled natively by Mollie in the web.</li><li>You can do test payments because test and production payments are handled in a similar environment.</li></ul> | There are limited theming options because the flow uses an external browser. Some browsers support custom theming (such as _Chrome Custom Tabs_), however, customers might not have Chrome on their device. |
 
 ### Advanced implementation
@@ -50,8 +50,8 @@ The advanced implementation enables you to customise the payment flow in your ap
 
 However, it’s harder to implement than the basic implementation, because it requires more handling to ensure a smooth user experience. You also need to handle and test each case separately, which makes it more prone to errors.
 
-| Pros | Cons |
-| --- | --- |
+| Pros                                                  | Cons                                                                                                                                                                                                                                                                                                           |
+|-------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | You can fully customise the payment flow in your app. | Requires more handling to test, for example:<br><ul><li>You must check whether other native apps are installed on the device, and launch the corresponding app when needed to execute a payment.</li><li>You must test using real payments, because production and test payments behave differently.</li></ul> |
 
 ### Customised payment method selection (optional)
@@ -64,8 +64,8 @@ By default, Mollie handles both steps in the web. Mollie Checkout for Android en
 
 If you include this step in your app, customers select the payment method in your app and complete the payment in the web.
 
-| Pros | Cons |
-| --- | --- |
+| Pros                                                                      | Cons                                                                                                                                                                                                                                                                                                                       |
+|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | You can customise the payment method selection to match your app's theme. | <ul><li>Customers must select the payment method before creating the payment, which means they can’t go back to select a different method when they reach the completion step.</li><li>Requires additional configuration to implement a call that retrieves the payment methods to both the backend and the app.</li></ul> |
 
 ## Next steps

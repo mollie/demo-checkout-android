@@ -1,5 +1,6 @@
 package com.mollie.checkout.feature.payments.selectcheckout
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -73,6 +74,8 @@ class SelectCheckoutActivity : BaseActivity<ActivitySelectCheckoutBinding>() {
             .commit()
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         if (vm.onBack()) {
             return
